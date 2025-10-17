@@ -1,0 +1,101 @@
+# --------------------------
+# Node.js / Express
+# --------------------------
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+package-lock.json
+.pnpm-debug.log*
+
+# Optional: Uncomment if you don’t want to commit package-lock.json
+# package-lock.json
+
+# Environment variables
+.env
+.env.test
+.env.production
+.env.local
+
+# Logs
+logs
+*.log
+logs/*.log
+
+# Build output
+dist/
+build/
+.cache/
+.tmp/
+
+# Coverage reports
+coverage/
+.nyc_output/
+
+# --------------------------
+# Frontend (React, Vue, Angular, etc.)
+# --------------------------
+# Dependency directories
+frontend/node_modules/
+frontend/.cache/
+
+# Production build output
+frontend/build/
+frontend/dist/
+
+# Test and coverage outputs
+frontend/coverage/
+
+# --------------------------
+# Backend (Express, API)
+# --------------------------
+backend/node_modules/
+backend/logs/
+backend/dist/
+backend/tmp/
+backend/.cache/
+backend/coverage/
+backend/.env
+backend/.env.local
+backend/uploads/        # if you’re storing uploaded files (optional)
+
+# --------------------------
+# OS-specific files
+# --------------------------
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# --------------------------
+# IDEs and Editors
+# --------------------------
+.vscode/
+.idea/
+*.swp
+*.swo
+*.sublime-project
+*.sublime-workspace
+
+# --------------------------
+# Docker
+# --------------------------
+*.pid
+*.seed
+*.pid.lock
+docker-compose.override.yml
+.env.docker
+
+# --------------------------
+# Miscellaneous
+# --------------------------
+*.tgz
+*.zip
+*.tar
+*.gz
+*.rar
+*.7z
+*.bak
+*.tmp
+*.old
