@@ -17,17 +17,21 @@ function App() {
 
         </div>
 
-            <div class= "InputText">
+            <div className= "InputText">
             <label for="productDescription" class="block text-lg font-medium text-gray-700 mb-2">
               
             </label>
-            <textarea
+            <input
                 id="productDescription"
                 rows="8"
-                class="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-150 ease-in-out resize-none text-gray-800"
+                className="input-class"
                 placeholder="Example: Make this picture into an ad."
                 aria-label="Product Description Input Area"
-            ></textarea>
+            ></input>
+        </div>
+
+        <div className="button">
+          <button className="button-style">Generate Ads</button>
         </div>
     
 
