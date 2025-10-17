@@ -9,9 +9,11 @@ function App() {
         <h3>make adds on the go</h3>
         <div className="card">
           <div className="card-info">
-            <p>Upload an image of your product</p>
+            <p>Attach an image of your product</p>
+            
+            
           </div>
-          
+
 
         </div>
 
