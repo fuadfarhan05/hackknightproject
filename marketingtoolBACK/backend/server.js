@@ -1,6 +1,13 @@
 const express = require('express'); 
 const app = express(); 
-require('dotenv').config()
+require('dotenv').config();  
+
+// need multer which basically handles:Multer is a node.js middleware for handling multipart/form-data, which is primarily used for uploading files. It is written on top of busboy for maximum efficiency. 
+const multer = require('multer'); 
+
+
+//middleware to use two different ports. 
+const cors = require("cors"); 
 
 // setting up the middleware 
 app.use(express.json()); 
