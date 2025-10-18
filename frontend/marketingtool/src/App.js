@@ -23,19 +23,16 @@ function App() {
 
   const handleSubmit = async () => {
 
-    if(!image) {
-      alert("please attach an image and prompt to proceed");
-    }
-
-    if(!prompt) {
-      alert("please attach an image and prompt to proceed");
+    if (!image || !prompt){ 
+      alert("Please attach both an image and prompt to proceed"); 
+      return; 
     }
 
     const PORT = process.env.PORT;
 
     const formData = new FormData();
     formData.append("image", image);
-    formData.append("prompt", prompt);
+    formData.append("text", prompt);
 
     try {
       const response = await fetch(`http://localhost:${PORT}/api/upload`, {
