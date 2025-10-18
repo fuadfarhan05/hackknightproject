@@ -21,12 +21,13 @@ const GEM_API_KEY = process.env.GEMINI_API_KEY;
 
 //GEMINI api endpoint.
 const GEMINI_API_URL =
-  "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent";
+  "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent";
 
 // Basic route
 app.get("/", (req, res) => {
   res.send("Backend for Marketing tool is running");
 }); 
+
 
 // Upload route
 app.post("/upload", upload.single("image"), async (req, res) => {
