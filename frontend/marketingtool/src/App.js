@@ -6,7 +6,9 @@ import "./App.css";
 function App() {
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(null);
-  const [text, setPrompt] = useState("");
+  const [text, setText] = useState(""); 
+  // we need to create a new state show on the page as such 
+  const [resultImg, setResultImg] = useState(null); 
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -18,18 +20,18 @@ function App() {
   };
 
   const handlePromptChange = (e) => {
-    setPrompt(e.target.value);
+    setText(e.target.value);
   };
 
   const handleSubmit = async () => {
-    if (!image || !prompt) {
+    if (!image || !text) {
       alert("Please attach both an image and prompt to proceed");
       return;
     }
 
     const formData = new FormData();
     formData.append("image", image);
-    formData.append("text", prompt);
+    formData.append("text", text);
 
     try {
       const response = await fetch(`http://localhost:5000/api/upload`, {
@@ -37,9 +39,19 @@ function App() {
         body: formData,
       });
 
+      // debug comment here 
+      // console.log("Image trying to process here: ");
+
       const data = await response.json();
       console.log("Gemini res:", data);
-      alert("Upload successful");
+
+      if (data.imageBase64 && data.mimeType){ 
+        setResultImg(`data:${data.mimeType});base64, ${data.imageBase64}`); 
+      } else{ 
+        alert("No image returned"); 
+      } 
+
+      alert("upload successful");
     } catch (error) {
       console.error("Error uploading:", error);
       alert("There was an error uploading your file.");
@@ -50,7 +62,7 @@ function App() {
     <div className="App">
       <header className="App-header">
         <h1>Brand.AI 🎬</h1>
-        <h3>make adds on the go</h3>
+        <h3>Make Ads on the Go</h3>
         <div className="card">
           <div className="card-info">
             <p>Attach an image of your product</p>
@@ -73,18 +85,29 @@ function App() {
 
         <div className="InputText">
           <label
-            for="productDescription"
-            class="block text-lg font-medium text-gray-700 mb-2"
+            htmlFor="productDescription"
+            className="block text-lg font-medium text-gray-700 mb-2"
           ></label>
           <input
             id="productDescription"
             rows="8"
             className="input-class"
             onChange={handlePromptChange}
-            placeholder="Example: Make this picture into an ad."
+            placeholder="Example: Create a viral instagram ad for our new sneakers targeting Gen Z."
             aria-label="Product Description Input Area"
           ></input>
-        </div>
+        </div> 
+
+        {/*Handles the output so that the output should come right after the the uploaded image here. */}
+        {resultImg && ( 
+          <div className="output-box" style={{ marginTop: "20px"}}>
+            <h2>Generated Output:</h2> 
+            <img 
+            src={resultImg}
+            alt="Generated Result"
+            style={{ maxWidth: "400px", borderRadius: "8px" }}/>
+          </div>
+        )}
 
         <div className="button">
           <button className="button-style" onClick={handleSubmit}>
