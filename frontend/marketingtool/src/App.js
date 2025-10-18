@@ -1,7 +1,7 @@
-import logo from './logo.svg';
-import React from 'react';
-import { useState } from 'react';
-import './App.css';
+import logo from "./logo.svg";
+import React from "react";
+import { useState } from "react";
+import "./App.css";
 
 function App() {
   const [image, setImage] = useState(null);
@@ -10,7 +10,7 @@ function App() {
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
-    if(!file) return;
+    if (!file) return;
 
     const previewUrl = URL.createObjectURL(file);
     setPreview(previewUrl);
@@ -19,19 +19,17 @@ function App() {
 
   const handlePromptChange = (e) => {
     setPrompt(e.target.value);
-  }
+  };
 
   const handleSubmit = async () => {
-
-    if (!image || !prompt){ 
-      alert("Please attach both an image and prompt to proceed"); 
-      return; 
+    if (!image || !prompt) {
+      alert("Please attach both an image and prompt to proceed");
+      return;
     }
 
     const formData = new FormData();
     formData.append("image", image);
     formData.append("text", prompt);
-    formData.append("prompt", text);
 
     try {
       const response = await fetch(`http://localhost:5000/api/upload`, {
@@ -39,14 +37,14 @@ function App() {
         body: formData,
       });
 
-    }catch (error) {
+      const data = await response.json();
+      console.log("Gemini res:", data);
+      alert("Upload successful");
+    } catch (error) {
       console.error("Error uploading:", error);
       alert("There was an error uploading your file.");
-  }
-
-  }
-
-
+    }
+  };
 
   return (
     <div className="App">
@@ -62,35 +60,37 @@ function App() {
               <img
                 src={preview}
                 alt="Preview"
-                style={{ width: "200px", height: "auto", marginTop: "10px", borderRadius: "8px" }}
+                style={{
+                  width: "200px",
+                  height: "auto",
+                  marginTop: "10px",
+                  borderRadius: "8px",
+                }}
               />
             )}
           </div>
-
-            
-
         </div>
 
-            <div className= "InputText">
-            <label for="productDescription" class="block text-lg font-medium text-gray-700 mb-2">
-              
-            </label>
-            <input
-                id="productDescription"
-                rows="8"
-                className="input-class"
-                onChange={handlePromptChange}
-                placeholder="Example: Make this picture into an ad."
-                aria-label="Product Description Input Area"
-            ></input>
+        <div className="InputText">
+          <label
+            for="productDescription"
+            class="block text-lg font-medium text-gray-700 mb-2"
+          ></label>
+          <input
+            id="productDescription"
+            rows="8"
+            className="input-class"
+            onChange={handlePromptChange}
+            placeholder="Example: Make this picture into an ad."
+            aria-label="Product Description Input Area"
+          ></input>
         </div>
 
         <div className="button">
-          <button className="button-style" onClick={handleSubmit}>Generate Ads</button>
+          <button className="button-style" onClick={handleSubmit}>
+            Generate Ads
+          </button>
         </div>
-    
-
-        
       </header>
     </div>
   );
