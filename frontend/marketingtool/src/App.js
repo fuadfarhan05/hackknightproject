@@ -38,7 +38,7 @@ function App() {
     formData.append("prompt", prompt);
 
     try {
-      const response = await fetch(`http://localhost:${PORT}/upload`, {
+      const response = await fetch(`http://localhost:${PORT}/api/upload`, {
         method: "POST",
         body: formData,
       });
@@ -46,7 +46,6 @@ function App() {
     }catch (error) {
       console.error("Error uploading:", error);
       alert("There was an error uploading your file.");
-
   }
 
   }
