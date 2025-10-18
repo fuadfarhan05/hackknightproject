@@ -23,18 +23,9 @@ function App() {
 
   const handleSubmit = async () => {
 
-<<<<<<< HEAD
     if (!image || !prompt){ 
       alert("Please attach both an image and prompt to proceed"); 
       return; 
-=======
-    if(!image) {
-      alert("please attach an image and prompt to proceed");
-    }
-
-    if(!text) {
-      alert("please attach an image and prompt to proceed");
->>>>>>> e44bd4292d8e4b3700c90045f54407956ed53fee
     }
 
     const formData = new FormData();
