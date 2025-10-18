@@ -15,7 +15,7 @@ app.use(express.json());
 const userUpload = require('./Routes/userupload'); 
 
 // Port
-const port = 5000;
+const port = process.env.PORT || 6500;
 
 // Multer memory storage (don’t save locally)
 // const storage = multer.memoryStorage();
