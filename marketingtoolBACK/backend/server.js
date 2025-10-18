@@ -1,25 +1,63 @@
-const express = require('express'); 
-const app = express(); 
-require('dotenv').config();  
+const express = require("express");
+const app = express();
+require("dotenv").config();
+const fs = require("fs");
+const path = require("path");
+const multer = require("multer");
+const cors = require("cors");
+const axios = require("axios");
 
-// need multer which basically handles:Multer is a node.js middleware for handling multipart/form-data, which is primarily used for uploading files. It is written on top of busboy for maximum efficiency. 
-const multer = require('multer'); 
+// Middleware
+app.use(cors());
+app.use(express.json());
 
+// Port
+const port = process.env.PORT || 6500;
 
-//middleware to use two different ports. 
-const cors = require("cors"); 
+// Multer memory storage (do NOT save locally)
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
 
-// setting up the middleware 
-app.use(express.json()); 
+// Basic route
+app.get("/", (req, res) => {
+  res.send("Backend for Marketing tool is running");
+});
 
-// setting up the Ports here 
-const port = process.env.PORT || 6500; 
+// Upload route: receive image + text from frontend
+app.post("/upload", upload.single("image"), async (req, res) => {
+  try {
+    const text = req.body.text;      // Text from frontend
+    const fileBuffer = req.file.buffer;  // Image buffer from memory
+    const fileName = req.file.originalname;
 
-// basic route 
-app.get('/', (req, res) => { 
-    res.send('Backend for Marketing tool is running'); 
-}); 
+    // Send to Gemini API
+    const geminiResponse = await axios.post(
+      "", // Replace with actual endpoint
+      {
+        image: fileBuffer.toString("base64"), // Convert image to base64 if required
+        text: text,
+        filename: fileName
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${process.env.GEMINI_API_KEY}`,
+        },
+      }
+    );
 
-app.listen(port, () => { 
-    console.log(`Backend Server Running at http://localhost:${port}`); 
-}); 
+    // Respond with Gemini data
+    res.json({
+      message: "Image and text sent to Gemini API successfully",
+      geminiData: geminiResponse.data,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to send image to Gemini API" });
+  }
+});
+
+// Start server
+app.listen(port, () => {
+  console.log(`Backend Server Running at http://localhost:${port}`);
+});
