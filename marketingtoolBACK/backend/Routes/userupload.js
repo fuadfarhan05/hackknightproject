@@ -12,12 +12,27 @@ const GEM_API_KEY = process.env.GEMINI_API_KEY;
 
 //GEMINI api endpoint.
 const GEMINI_API_URL =
-  "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent";
+  "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-image-preview:generateContent";
 
 userUpload.post("/upload", upload.single("image"), async (req, res) => {
-  try {
-    const text = req.body.text;
-    const fileBuffer = req.file.buffer;
+  try { 
+
+    if (!req.file) { 
+      return res.status(400).json({ error: "No image provided" }); 
+    } 
+
+    if (!req.body.text){ 
+      return res.status(400).json({ error: "No text/prompt provided "}); 
+    }
+
+    const prompt = req.body.text;
+    const fileBuffer = req.file.buffer; 
+
+    // handle api  key validation 
+    if (!GEM_API_KEY){ 
+      console.error("Gemini api key is not set"); 
+      return res.status(500).json({ error : "API key not configured "}); 
+    }
 
     // Convert image to base64
     const base64Image = fileBuffer.toString("base64");
@@ -27,7 +42,7 @@ userUpload.post("/upload", upload.single("image"), async (req, res) => {
       contents: [
         {
           parts: [
-            { text: text },
+            { text: prompt },
             {
               inlineData: {
                 mimeType: req.file.mimetype,
@@ -37,7 +52,9 @@ userUpload.post("/upload", upload.single("image"), async (req, res) => {
           ],
         },
       ],
-    };
+    }; 
+
+    console.log("sending request to API..."); 
 
     // Send to Gemini API
     const response = await axios.post(
@@ -46,15 +63,34 @@ userUpload.post("/upload", upload.single("image"), async (req, res) => {
       {
         headers: { "Content-Type": "application/json" },
       },
-    );
+    ); 
+    console.log("API response recieved"); 
+
+    const generatedImage = response.data?.candidates?.[0]?.content?.parts?.[0]?.inlineData?.data;
+    const mimeType = response.data?.candidates?.[0]?.content?.parts?.[0]?.inlineData?.mimeType;
+
+    if (!generatedImage) {  
+      console.error("No image in response:", response.data);
+      return res.status(500).json({
+        error: "No image is able to be generated from API", 
+        fullResponse: response.data,
+        }); 
+      }
+
+    // const imageBase64 = geminiPart.inlineData.data; 
+    // const mimeType = geminiPart.inlineData.mimeType; 
 
     res.json({
-      message: "Image and text sent to Gemini API successfully",
+      message: "Image and text sent to Gemini API successfully", 
+      imageBase64: generatedImage, 
+      mimeType: mimeType || "image/png",
       geminiData: response.data,
     });
   } catch (err) {
-    console.error("Error:", err.response?.data || err.message);
-    res.status(500).json({ error: "Failed to send image to Gemini API" });
+    console.error("Error:", err.response?.data || err.message); 
+    console.error("Full error:", err); 
+
+    res.status(500).json({ error: "Failed to send image to Gemini API", details: err.response?.data?.error?.message || err.message });
   }
 });
 
