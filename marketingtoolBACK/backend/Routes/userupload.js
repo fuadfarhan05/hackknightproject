@@ -66,8 +66,19 @@ userUpload.post("/upload", upload.single("image"), async (req, res) => {
     ); 
     console.log("API response recieved"); 
 
-    const generatedImage = response.data?.candidates?.[0]?.content?.parts?.[0]?.inlineData?.data;
-    const mimeType = response.data?.candidates?.[0]?.content?.parts?.[0]?.inlineData?.mimeType;
+    let generatedImage = null;
+    let mimeType = "image/png"; 
+
+    const parts = response.data?.candidates?.[0]?.content?.parts || []; 
+
+     for (let part of parts) {
+      if (part.inlineData && part.inlineData.data) {
+        generatedImage = part.inlineData.data;
+        mimeType = part.inlineData.mimeType || "image/png";
+        console.log("Found image data in response");
+        break;
+      }
+    }
 
     if (!generatedImage) {  
       console.error("No image in response:", response.data);
@@ -77,13 +88,12 @@ userUpload.post("/upload", upload.single("image"), async (req, res) => {
         }); 
       }
 
-    // const imageBase64 = geminiPart.inlineData.data; 
-    // const mimeType = geminiPart.inlineData.mimeType; 
+      console.log("Image successfully generated and extracted");
 
     res.json({
       message: "Image and text sent to Gemini API successfully", 
       imageBase64: generatedImage, 
-      mimeType: mimeType || "image/png",
+      mimeType: mimeType,
       geminiData: response.data,
     });
   } catch (err) {
