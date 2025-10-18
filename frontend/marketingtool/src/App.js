@@ -6,7 +6,7 @@ import './App.css';
 function App() {
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(null);
-  const [prompt, setPrompt] = useState("");
+  const [text, setPrompt] = useState("");
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -27,18 +27,16 @@ function App() {
       alert("please attach an image and prompt to proceed");
     }
 
-    if(!prompt) {
+    if(!text) {
       alert("please attach an image and prompt to proceed");
     }
 
-    const PORT = process.env.PORT;
-
     const formData = new FormData();
     formData.append("image", image);
-    formData.append("prompt", prompt);
+    formData.append("prompt", text);
 
     try {
-      const response = await fetch(`http://localhost:${PORT}/api/upload`, {
+      const response = await fetch(`http://localhost:5000/api/upload`, {
         method: "POST",
         body: formData,
       });
