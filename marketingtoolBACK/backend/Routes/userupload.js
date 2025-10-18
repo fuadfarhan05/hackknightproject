@@ -12,7 +12,7 @@ const GEM_API_KEY = process.env.GEMINI_API_KEY;
 
 //GEMINI api endpoint.
 const GEMINI_API_URL =
-  "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-image-preview:generateContent";
+  "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-image:generateContent";
 
 userUpload.post("/upload", upload.single("image"), async (req, res) => {
   try { 
