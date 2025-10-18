@@ -13,7 +13,7 @@ app.use(cors());
 app.use(express.json());
 
 // Port
-const port = process.env.PORT || 6500;
+const port = 5000;
 
 // Basic route
 app.get("/", (req, res) => {
