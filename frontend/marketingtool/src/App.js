@@ -46,7 +46,7 @@ function App() {
       console.log("Gemini res:", data);
 
       if (data.imageBase64 && data.mimeType){ 
-        setResultImg(`data:${data.mimeType});base64, ${data.imageBase64}`); 
+        setResultImg(`data:${data.mimeType};base64,${data.imageBase64}`);
       } else{ 
         alert("No image returned"); 
       } 
