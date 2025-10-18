@@ -1,8 +1,6 @@
 const express = require("express");
 const app = express();
 require("dotenv").config();
-const fs = require("fs");
-const path = require("path");
 const multer = require("multer");
 const cors = require("cors");
 const axios = require("axios");
@@ -14,45 +12,63 @@ app.use(express.json());
 // Port
 const port = process.env.PORT || 6500;
 
-// Multer memory storage (do NOT save locally)
+// Multer memory storage (don’t save locally)
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
+
+// Gemini API key
+const GEM_API_KEY = process.env.GEMINI_API_KEY;
+
+//GEMINI api endpoint.
+const GEMINI_API_URL =
+  "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent";
 
 // Basic route
 app.get("/", (req, res) => {
   res.send("Backend for Marketing tool is running");
-});
+}); 
 
-// Upload route: receive image + text from frontend
+// Upload route
 app.post("/upload", upload.single("image"), async (req, res) => {
   try {
-    const text = req.body.text;      // Text from frontend
-    const fileBuffer = req.file.buffer;  // Image buffer from memory
-    const fileName = req.file.originalname;
+    const text = req.body.text;
+    const fileBuffer = req.file.buffer;
+
+    // Convert image to base64
+    const base64Image = fileBuffer.toString("base64");
+
+    // Prepare Gemini API request body
+    const requestBody = {
+      contents: [
+        {
+          parts: [
+            { text: text },
+            {
+              inlineData: {
+                mimeType: req.file.mimetype,
+                data: base64Image,
+              },
+            },
+          ],
+        },
+      ],
+    };
 
     // Send to Gemini API
-    const geminiResponse = await axios.post(
-      "", // Replace with actual endpoint
+    const response = await axios.post(
+      `${GEMINI_API_URL}?key=${GEM_API_KEY}`,
+      requestBody,
       {
-        image: fileBuffer.toString("base64"), // Convert image to base64 if required
-        text: text,
-        filename: fileName
+        headers: { "Content-Type": "application/json" },
       },
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${process.env.GEMINI_API_KEY}`,
-        },
-      }
     );
 
-    // Respond with Gemini data
     res.json({
       message: "Image and text sent to Gemini API successfully",
-      geminiData: geminiResponse.data,
+      geminiData: response.data,
     });
   } catch (err) {
-    console.error(err);
+    console.error("Error:", err.response?.data || err.message);
     res.status(500).json({ error: "Failed to send image to Gemini API" });
   }
 });
