@@ -260,18 +260,32 @@ div[style*="color: red"] {
 }
 
 .suggested {
-  background: #e7f0ff; /* light blue background */
-  border: 1px solid #bcd3ff; 
+  background: rgba(255, 255, 255, 0.12); /* translucent liquid base */
+  border: 1px solid rgba(255, 255, 255, 0.25);
   padding: 16px;
   border-radius: 25px;
   width: fit-content;
   font-family: sans-serif;
+
+  /* LIQUID GLASS FX */
+  backdrop-filter: blur(14px) saturate(200%);
+  -webkit-backdrop-filter: blur(14px) saturate(200%);
+
+  /* smooth blue liquid gradient */
+  background-image: linear-gradient(
+    to bottom right,
+    rgba(135, 176, 255, 0.35),
+    rgba(40, 90, 255, 0.18)
+  );
+
+  box-shadow: 0 8px 25px rgba(0, 60, 255, 0.22);
 }
+
 
 .suggested p {
   margin: 0 0 10px;
   font-weight: 600;
-  color: #1a3d7c; /* strong navy blue */
+  color: #ffffff; /* strong navy blue */
 }
 
 .suggested button {

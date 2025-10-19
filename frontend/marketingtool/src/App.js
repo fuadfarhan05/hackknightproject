@@ -83,12 +83,13 @@ function App() {
           </div>
         </div>
         <div className="suggested">
-          <p>make an ad that is:</p>
-          <button className="">retro style</button>
-          <button>luxury style</button>
-          <button>old school style</button>
-          <button>cyberpunk</button>
-          <button>minimalistic</button>
+          <p>Suggestions:</p>
+          <button onClick={() => setText("retro style")}>retro style</button>
+          <button onClick={() => setText("luxury style")}>luxury style</button>
+          <button onClick={() => setText("old school style")}>old school style</button>
+          <button onClick={() => setText("cyberpunk")}>cyberpunk</button>
+          <button onClick={() => setText("minimalistic")}>minimalistic</button>
+
         </div>
         <div className="InputText">
           <label
@@ -99,6 +100,7 @@ function App() {
             id="productDescription"
             rows="8"
             className="input-class"
+            value={text} 
             onChange={handlePromptChange}
             placeholder="Example: Create a viral instagram ad for our new sneakers targeting Gen Z."
             aria-label="Product Description Input Area"
