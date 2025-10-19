@@ -23,6 +23,8 @@ function App() {
   // we need to create a new state show on the page as such 
   const [resultImg, setResultImg] = useState(null); 
 
+
+
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -35,6 +37,37 @@ function App() {
   const handlePromptChange = (e) => {
     setText(e.target.value);
   };
+
+  const handleFacebookShare = () => {
+  const url = encodeURIComponent(resultImg);
+  const text = encodeURIComponent(shareMessage);
+  window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}&quote=${text}`, "_blank");
+};
+
+const handleTwitterShare = () => {
+  const url = encodeURIComponent(resultImg);
+  const text = encodeURIComponent(shareMessage);
+  window.open(`https://twitter.com/intent/tweet?url=${url}&text=${text}`, "_blank");
+};
+
+const handleLinkedInShare = () => {
+  const url = encodeURIComponent(resultImg);
+  window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${url}`, "_blank");
+};
+
+const handleWhatsAppShare = () => {
+  const url = encodeURIComponent(resultImg);
+  const text = encodeURIComponent(shareMessage);
+  window.open(`https://api.whatsapp.com/send?text=${text}%20${url}`, "_blank");
+};
+
+const handleEmailShare = () => {
+  const subject = encodeURIComponent("GoAddy.io Ad");
+  const body = encodeURIComponent(`${shareMessage}\n\n${resultImg}`);
+  window.open(`mailto:?subject=${subject}&body=${body}`, "_blank");
+};
+
+
 
   const handleSubmit = async () => {
     if (!image || !text) {
@@ -142,24 +175,25 @@ function App() {
                 marginTop: "20px", 
               }} 
             >
-              <FacebookShareButton url={resultImg} quote={shareMessage}>
+              <button onClick={handleFacebookShare}>
                 <FacebookIcon size={40} round />
-              </FacebookShareButton> 
-              <TwitterShareButton url={resultImg} title={shareMessage}>
+              </button>
+
+              <button onClick={handleTwitterShare}>
                 <TwitterIcon size={40} round />
-              </TwitterShareButton>
+              </button>
 
-              <LinkedinShareButton url={resultImg} summary={shareMessage}>
+              <button onClick={handleLinkedInShare}>
                 <LinkedinIcon size={40} round />
-              </LinkedinShareButton>
+              </button>
 
-              <WhatsappShareButton url={resultImg} title={shareMessage}>
+              <button onClick={handleWhatsAppShare}>
                 <WhatsappIcon size={40} round />
-              </WhatsappShareButton>
+              </button>
 
-              <EmailShareButton url={resultImg} subject="GoAddy.io Ad" body={shareMessage}>
+              <button onClick={handleEmailShare}>
                 <EmailIcon size={40} round />
-              </EmailShareButton>
+              </button>
             </div>
           </div>
         )}
