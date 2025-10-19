@@ -1,6 +1,19 @@
 import logo from "./logo.svg";
 import React from "react";
-import { useState } from "react";
+import { useState } from "react"; 
+import { 
+  FacebookShareButton,
+  TwitterShareButton,
+  LinkedinShareButton,
+  WhatsappShareButton,
+  EmailShareButton,
+  FacebookIcon,
+  TwitterIcon,
+  LinkedinIcon,
+  WhatsappIcon,
+  EmailIcon,
+} from "react-share"; 
+
 import "./App.css";
 
 function App() {
