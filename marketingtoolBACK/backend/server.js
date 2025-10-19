@@ -11,9 +11,6 @@ const axios = require("axios");
 app.use(cors());
 app.use(express.json());
 
-//Routes 
-const userUpload = require('./Routes/userupload'); 
-
 // Port
 const port = process.env.PORT || 6500;
 
