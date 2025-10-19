@@ -69,7 +69,10 @@ function App() {
       console.error("Error uploading:", error);
       alert("There was an error uploading your file.");
     }
-  };
+  }; 
+
+  // defining the shareMessage here as such:
+  const shareMessage = "Check out this AI-generated ad I made with GoAddy.io! 🚀 Create your own stunning ads instantly — no design skills needed."
 
   return (
     <div className="App">
@@ -127,7 +130,37 @@ function App() {
             <img 
             src={resultImg}
             alt="Generated Result"
-            style={{ maxWidth: "400px", borderRadius: "8px" }}/>
+            style={{ maxWidth: "400px", borderRadius: "8px" }}
+            /> 
+            {/*--Share Button Section */} 
+            <div 
+              className = "share-buttons"
+              style={{ 
+                display: "flex", 
+                gap: "10px", 
+                justifyContent: "center", 
+                marginTop: "20px", 
+              }} 
+            >
+              <FacebookShareButton url={resultImg} quote={shareMessage}>
+                <FacebookIcon size={40} round />
+              </FacebookShareButton> 
+              <TwitterShareButton url={resultImg} title={shareMessage}>
+                <TwitterIcon size={40} round />
+              </TwitterShareButton>
+
+              <LinkedinShareButton url={resultImg} summary={shareMessage}>
+                <LinkedinIcon size={40} round />
+              </LinkedinShareButton>
+
+              <WhatsappShareButton url={resultImg} title={shareMessage}>
+                <WhatsappIcon size={40} round />
+              </WhatsappShareButton>
+
+              <EmailShareButton url={resultImg} subject="GoAddy.io Ad" body={shareMessage}>
+                <EmailIcon size={40} round />
+              </EmailShareButton>
+            </div>
           </div>
         )}
 
