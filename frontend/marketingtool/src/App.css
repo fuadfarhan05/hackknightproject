@@ -1,71 +1,3 @@
-/* .App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #000000;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.card {
-  background-color: rgb(255, 255, 255);
-  border-radius: 20px;
-  padding: 20px;
-  height: 420px;
-  width: 400px;
-}
-
-.card-info {
-  color: black;
-  font-size: 24px;
-}
-
-.input-class {
-  margin: 20px;
-  width: 430px;
-  height: 50px;
-  border-radius: 15px;
-}
-
-.button-style {
-  margin: 20px;
-  width: 150px;
-  height: 50px;
-  background-color: aliceblue;
-  border-radius: 20px;
-  font-weight: bold;
-} */
-
 * {
   margin: 0;
   padding: 0;
@@ -249,62 +181,46 @@ img:hover {
   border-color: rgba(59, 130, 246, 0.6);
 }
 
-/* Error Message Styling */
-div[style*="color: red"] {
-  background-color: rgba(239, 68, 68, 0.1) !important;
-  border: 1px solid rgba(239, 68, 68, 0.5) !important;
-  color: #fca5a5 !important;
-  padding: 12px 16px !important;
-  border-radius: 8px !important;
-  margin-bottom: 20px !important;
-}
-
+/* Suggested Box (Liquid Glass) */
 .suggested {
-  background: rgba(255, 255, 255, 0.12); /* translucent liquid base */
+  background: rgba(255, 255, 255, 0.12);
   border: 1px solid rgba(255, 255, 255, 0.25);
   padding: 16px;
   border-radius: 25px;
   width: fit-content;
   font-family: sans-serif;
-
-  /* LIQUID GLASS FX */
   backdrop-filter: blur(14px) saturate(200%);
   -webkit-backdrop-filter: blur(14px) saturate(200%);
-
-  /* smooth blue liquid gradient */
   background-image: linear-gradient(
     to bottom right,
     rgba(135, 176, 255, 0.35),
     rgba(40, 90, 255, 0.18)
   );
-
   box-shadow: 0 8px 25px rgba(0, 60, 255, 0.22);
 }
-
 
 .suggested p {
   margin: 0 0 10px;
   font-weight: 600;
-  color: #ffffff; /* strong navy blue */
+  color: #ffffff;
 }
 
 .suggested button {
-  background: #4f73d7; /* main blue */
-  color: rgb(255, 255, 255);
+  background: #4f73d7;
+  color: white;
   border: none;
   padding: 8px 14px;
   margin: 4px;
-  border-radius: 8px;
+  border-radius: 20px;
   font-size: 14px;
   cursor: pointer;
   transition: 0.2s ease;
-  border-radius: 20px;
 }
 
 .suggested button:hover {
-  background: #9fb7fa; /* lighter hover */
+  background: #9fb7fa;
   transform: translateY(-2px);
-  color:#000000;
+  color: #000000;
 }
 
 .suggested button:active {
@@ -312,57 +228,59 @@ div[style*="color: red"] {
   background: #bcccf5;
 }
 
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .App-header h1 {
-    font-size: 2.5rem;
+/* ✅ Mobile Improvements */
+@media (max-width: 480px) {
+  .suggested {
+    width: 100%;
+    max-width: 95%;
+    padding: 14px;
+    border-radius: 20px;
   }
 
-  .App-header h3 {
-    font-size: 1.2rem;
+  .suggested button {
+    width: 100%;
+    font-size: 15px;
+    padding: 10px;
+    margin: 6px 0;
   }
 
-  .card {
-    max-width: 100%;
-    width: 95%;
+  .InputText {
+    width: 100%;
+    max-width: 95%;
+    margin-top: 20px;
   }
 
   .input-class {
-    font-size: 16px; /* Prevents zoom on mobile */
+    font-size: 15px;
+    padding: 16px;
+  }
+
+  img {
+    max-width: 95%;
+    border-radius: 10px;
+  }
+
+  .card {
+    width: 95%;
+    padding: 18px;
   }
 
   .button-style {
-    width: 90%;
-    padding: 12px 30px;
-  }
-}
-
-@media (max-width: 480px) {
-  .App-header {
-    padding: 20px 15px;
+    width: 100%;
+    padding: 14px;
+    font-size: 1rem;
   }
 
   .App-header h1 {
-    font-size: 2rem;
+    font-size: 1.8rem;
   }
 
   .App-header h3 {
     font-size: 1rem;
+    margin-bottom: 20px;
   }
 
-  .card {
-    padding: 20px;
+  .App-header {
+    padding: 18px 10px;
   }
-
-  .card-info {
-    font-size: 1rem;
-  }
-
-  .button-style {
-    min-width: 100%;
-  }
-
-  
 }
-

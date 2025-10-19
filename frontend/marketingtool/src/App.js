@@ -61,7 +61,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <h1>Brand.AI 🎬</h1>
+        <h1>GoAddy.io 🎬</h1>
         <h3>Make Ads on the Go</h3>
         <div className="card">
           <div className="card-info">
