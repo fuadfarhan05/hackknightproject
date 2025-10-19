@@ -34,7 +34,7 @@ function App() {
     formData.append("text", text);
 
     try {
-      const response = await fetch(`http://localhost:6500/api/upload`, {
+      const response = await fetch(`http://localhost:6500/upload`, {
         method: "POST",
         body: formData,
       });
@@ -82,7 +82,14 @@ function App() {
             )}
           </div>
         </div>
-
+        <div className="suggested">
+          <p>make an ad that is:</p>
+          <button className="">retro style</button>
+          <button>luxury style</button>
+          <button>old school style</button>
+          <button>cyberpunk</button>
+          <button>minimalistic</button>
+        </div>
         <div className="InputText">
           <label
             htmlFor="productDescription"
@@ -101,7 +108,7 @@ function App() {
         {/*Handles the output so that the output should come right after the the uploaded image here. */}
         {resultImg && ( 
           <div className="output-box" style={{ marginTop: "20px"}}>
-            <h2>Generated Output:</h2> 
+            <h2>Your ad will show below:</h2> 
             <img 
             src={resultImg}
             alt="Generated Result"
