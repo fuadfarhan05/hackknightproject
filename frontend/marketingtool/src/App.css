@@ -259,6 +259,46 @@ div[style*="color: red"] {
   margin-bottom: 20px !important;
 }
 
+.suggested {
+  background: #e7f0ff; /* light blue background */
+  border: 1px solid #bcd3ff; 
+  padding: 16px;
+  border-radius: 25px;
+  width: fit-content;
+  font-family: sans-serif;
+}
+
+.suggested p {
+  margin: 0 0 10px;
+  font-weight: 600;
+  color: #1a3d7c; /* strong navy blue */
+}
+
+.suggested button {
+  background: #4f73d7; /* main blue */
+  color: rgb(255, 255, 255);
+  border: none;
+  padding: 8px 14px;
+  margin: 4px;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.2s ease;
+  border-radius: 20px;
+}
+
+.suggested button:hover {
+  background: #9fb7fa; /* lighter hover */
+  transform: translateY(-2px);
+  color:#000000;
+}
+
+.suggested button:active {
+  transform: translateY(0);
+  background: #bcccf5;
+}
+
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .App-header h1 {
@@ -308,4 +348,7 @@ div[style*="color: red"] {
   .button-style {
     min-width: 100%;
   }
+
+  
 }
+
