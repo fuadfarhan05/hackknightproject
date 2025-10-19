@@ -284,3 +284,35 @@ img:hover {
     padding: 18px 10px;
   }
 }
+
+.loading-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.loading-box {
+  text-align: center;
+  color: white;
+  font-size: 22px;
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 6px solid #ffffff33;
+  border-top: 6px solid white;
+  border-radius: 50%;
+  margin: auto;
+  animation: spin 1s linear infinite;
+  margin-bottom: 15px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+

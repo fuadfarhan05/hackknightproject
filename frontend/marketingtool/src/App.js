@@ -2,11 +2,6 @@ import logo from "./logo2.svg";
 import React from "react";
 import { useState } from "react"; 
 import { 
-  FacebookShareButton,
-  TwitterShareButton,
-  LinkedinShareButton,
-  WhatsappShareButton,
-  EmailShareButton,
   FacebookIcon,
   TwitterIcon,
   LinkedinIcon,
@@ -20,10 +15,8 @@ function App() {
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(null);
   const [text, setText] = useState(""); 
-  // we need to create a new state show on the page as such 
-  const [resultImg, setResultImg] = useState(null); 
-
-
+  const [resultImg, setResultImg] = useState(null);
+  const [loading, setLoading] = useState(false); // ✅ NEW STATE
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -38,36 +31,37 @@ function App() {
     setText(e.target.value);
   };
 
+  const shareMessage = "Check out this AI-generated ad I made with GoAddy.io! 🚀 Create your own stunning ads instantly — no design skills needed."
+
+  // ✅ Social handlers remain the same...
   const handleFacebookShare = () => {
-  const url = encodeURIComponent(resultImg);
-  const text = encodeURIComponent(shareMessage);
-  window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}&quote=${text}`, "_blank");
-};
+    const url = encodeURIComponent(resultImg);
+    const text = encodeURIComponent(shareMessage);
+    window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}&quote=${text}`, "_blank");
+  };
 
-const handleTwitterShare = () => {
-  const url = encodeURIComponent(resultImg);
-  const text = encodeURIComponent(shareMessage);
-  window.open(`https://twitter.com/intent/tweet?url=${url}&text=${text}`, "_blank");
-};
+  const handleTwitterShare = () => {
+    const url = encodeURIComponent(resultImg);
+    const text = encodeURIComponent(shareMessage);
+    window.open(`https://twitter.com/intent/tweet?url=${url}&text=${text}`, "_blank");
+  };
 
-const handleLinkedInShare = () => {
-  const url = encodeURIComponent(resultImg);
-  window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${url}`, "_blank");
-};
+  const handleLinkedInShare = () => {
+    const url = encodeURIComponent(resultImg);
+    window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${url}`, "_blank");
+  };
 
-const handleWhatsAppShare = () => {
-  const url = encodeURIComponent(resultImg);
-  const text = encodeURIComponent(shareMessage);
-  window.open(`https://api.whatsapp.com/send?text=${text}%20${url}`, "_blank");
-};
+  const handleWhatsAppShare = () => {
+    const url = encodeURIComponent(resultImg);
+    const text = encodeURIComponent(shareMessage);
+    window.open(`https://api.whatsapp.com/send?text=${text}%20${url}`, "_blank");
+  };
 
-const handleEmailShare = () => {
-  const subject = encodeURIComponent("GoAddy.io Ad");
-  const body = encodeURIComponent(`${shareMessage}\n\n${resultImg}`);
-  window.open(`mailto:?subject=${subject}&body=${body}`, "_blank");
-};
-
-
+  const handleEmailShare = () => {
+    const subject = encodeURIComponent("GoAddy.io Ad");
+    const body = encodeURIComponent(`${shareMessage}\n\n${resultImg}`);
+    window.open(`mailto:?subject=${subject}&body=${body}`, "_blank");
+  };
 
   const handleSubmit = async () => {
     if (!image || !text) {
@@ -75,40 +69,46 @@ const handleEmailShare = () => {
       return;
     }
 
+    setLoading(true); // ✅ SHOW LOADING SCREEN
+
     const formData = new FormData();
     formData.append("image", image);
     formData.append("text", text);
 
     try {
-      const response = await fetch(`http://localhost:6500/upload`, {
+      const response = await fetch(`https://backendforgoaddy.onrender.com/upload`, {
         method: "POST",
         body: formData,
       });
-
-      // debug comment here 
-      // console.log("Image trying to process here: ");
 
       const data = await response.json();
       console.log("Gemini res:", data);
 
       if (data.imageBase64 && data.mimeType){ 
         setResultImg(`data:${data.mimeType};base64,${data.imageBase64}`);
-      } else{ 
+      } else { 
         alert("No image returned"); 
-      } 
-
-      alert("upload successful");
+      }
     } catch (error) {
       console.error("Error uploading:", error);
       alert("There was an error uploading your file.");
     }
-  }; 
 
-  // defining the shareMessage here as such:
-  const shareMessage = "Check out this AI-generated ad I made with GoAddy.io! 🚀 Create your own stunning ads instantly — no design skills needed."
+    setLoading(false); // ✅ HIDE LOADING SCREEN
+  };
 
   return (
     <div className="App">
+      {/* ✅ LOADING OVERLAY */}
+      {loading && (
+        <div className="loading-overlay">
+          <div className="loading-box">
+            <div className="spinner"></div>
+            <p>Your GoAddy is thinking... your ad will be ready soon</p>
+          </div>
+        </div>
+      )}
+
       <header className="App-header">
         <h1>GoAddy.photo 🎬</h1>
         <h3>Make Ads on the Go</h3>
@@ -131,6 +131,7 @@ const handleEmailShare = () => {
             )}
           </div>
         </div>
+
         <div className="suggested">
           <p>Suggestions:</p>
           <button onClick={() => setText("retro style")}>retro style</button>
@@ -138,13 +139,9 @@ const handleEmailShare = () => {
           <button onClick={() => setText("old school style")}>old school style</button>
           <button onClick={() => setText("cyberpunk")}>cyberpunk</button>
           <button onClick={() => setText("minimalistic")}>minimalistic</button>
-
         </div>
+
         <div className="InputText">
-          <label
-            htmlFor="productDescription"
-            className="block text-lg font-medium text-gray-700 mb-2"
-          ></label>
           <input
             id="productDescription"
             rows="8"
@@ -152,48 +149,24 @@ const handleEmailShare = () => {
             value={text} 
             onChange={handlePromptChange}
             placeholder="Example: Create a viral instagram ad for our new sneakers targeting Gen Z."
-            aria-label="Product Description Input Area"
           ></input>
-        </div> 
+        </div>
 
-        {/*Handles the output so that the output should come right after the the uploaded image here. */}
-        {resultImg && ( 
+        {resultImg && (
           <div className="output-box" style={{ marginTop: "20px"}}>
             <h2>Your ad will show below:</h2> 
             <img 
-            src={resultImg}
-            alt="Generated Result"
-            style={{ maxWidth: "400px", borderRadius: "8px" }}
+              src={resultImg}
+              alt="Generated Result"
+              style={{ maxWidth: "400px", borderRadius: "8px" }}
             /> 
-            {/*--Share Button Section */} 
-            <div 
-              className = "share-buttons"
-              style={{ 
-                display: "flex", 
-                gap: "10px", 
-                justifyContent: "center", 
-                marginTop: "20px", 
-              }} 
-            >
-              <button onClick={handleFacebookShare}>
-                <FacebookIcon size={40} round />
-              </button>
 
-              <button onClick={handleTwitterShare}>
-                <TwitterIcon size={40} round />
-              </button>
-
-              <button onClick={handleLinkedInShare}>
-                <LinkedinIcon size={40} round />
-              </button>
-
-              <button onClick={handleWhatsAppShare}>
-                <WhatsappIcon size={40} round />
-              </button>
-
-              <button onClick={handleEmailShare}>
-                <EmailIcon size={40} round />
-              </button>
+            <div className="share-buttons" style={{ display: "flex", gap: "10px", justifyContent: "center", marginTop: "20px" }}>
+              <button onClick={handleFacebookShare}><FacebookIcon size={40} round /></button>
+              <button onClick={handleTwitterShare}><TwitterIcon size={40} round /></button>
+              <button onClick={handleLinkedInShare}><LinkedinIcon size={40} round /></button>
+              <button onClick={handleWhatsAppShare}><WhatsappIcon size={40} round /></button>
+              <button onClick={handleEmailShare}><EmailIcon size={40} round /></button>
             </div>
           </div>
         )}
