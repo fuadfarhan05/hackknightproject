@@ -118,8 +118,8 @@
 .button-style {
   padding: 14px 40px;
   min-width: 200px;
-  background: linear-gradient(135deg, #000000, #000000);
-  color: white;
+  background: linear-gradient(135deg, #82a3f5, #d0e2f9);
+  color: rgb(0, 0, 0);
   border: none;
   border-radius: 12px;
   font-weight: 700;
